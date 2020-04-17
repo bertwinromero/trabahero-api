@@ -63,6 +63,11 @@ exports.update_user = async (req, res) => {
   }
 }
 
-exports.delete_user = (req, res) => {
-  res.send('delete user with conroller');
+exports.delete_user = async (req, res) => {
+  try {
+    const user = await User.remove({_id: req.params.id});
+    res.json(user);
+  } catch (err) {
+    res.json({message: err});
+  }
 }
