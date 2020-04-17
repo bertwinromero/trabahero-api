@@ -9,8 +9,13 @@ exports.get_users = async (req, res) => {
   }
 }
 
-exports.get_user = (req, res) => {
-  res.send('Get user with conroller');
+exports.get_user =  async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    res.json(user);
+  } catch (err) {
+    res.json({message: err});
+  }
 }
 
 exports.create_user = async (req, res, next) => {
