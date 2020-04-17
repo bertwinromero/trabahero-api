@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const morgan = require("morgan");
 
-const usersRoutes = require('./src/api/components/users');
+const usersRoutes = require('./src/api/components/users/users.routes');
 
 dotenv.config();
 
