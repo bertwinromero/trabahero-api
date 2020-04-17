@@ -3,13 +3,14 @@ const app = express();
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const morgan = require("morgan");
+const databaseConfig = require('./src/config/database.config');
 
 const usersRoutes = require('./src/api/components/user/user.routes');
 
 dotenv.config();
 
 // CONNECT TO DB
-mongoose.connect(process.env.DB_CONNECTION, { 
+mongoose.connect(databaseConfig.getDatabaseURI(), { 
   useNewUrlParser: true, useUnifiedTopology: true },
   () => console.log('connected to db!'));
 
@@ -21,7 +22,5 @@ app.use(express.json());
 
 // ROUTES MIDDLEWARE
 app.use('/api/users', usersRoutes);
-
-console.log(process.env.PORT)
 
 module.exports = app;
