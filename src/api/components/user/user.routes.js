@@ -5,7 +5,7 @@ router.get('/', UserController.get_users);
 
 router.get('/:id', UserController.get_user);
 
-router.post('/signup', UserController.create_user);
+router.post('/', UserController.create_user);
 
 router.patch('/:id', UserController.update_user);
 

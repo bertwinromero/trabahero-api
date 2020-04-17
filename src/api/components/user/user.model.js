@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  phoneNumner: {
+  phoneNumber: {
     type: String,
     required: true,
     min: 10,
