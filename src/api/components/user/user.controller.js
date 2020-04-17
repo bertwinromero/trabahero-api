@@ -1,7 +1,12 @@
 const User = require('./user.model');
 
-exports.get_users = (req, res) => {
-  res.send('Get all users with conroller');
+exports.get_users = async (req, res) => {
+  try {
+    const users = await User.find();
+    res.json(users);
+  } catch (err) {
+    res.json({message: err});
+  }
 }
 
 exports.get_user = (req, res) => {
