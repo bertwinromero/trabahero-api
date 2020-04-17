@@ -15,8 +15,6 @@ mongoose.connect(databaseConfig.getDatabaseURI(), {
   useNewUrlParser: true, useUnifiedTopology: true },
   () => console.log('connected to db!'));
 
-console.log(databaseConfig.getDatabaseURI());
-
 app.use(morgan("dev"));
 
 

@@ -47,8 +47,20 @@ exports.create_user = async (req, res, next) => {
 }
 
 
-exports.update_user = (req, res) => {
-  res.send('update user with conroller');
+exports.update_user = async (req, res) => {
+  try {
+    const updateOps = {};
+    for (const key of Object.keys(req.body)) {
+      updateOps[key] = req.body[key];
+    }
+    const user = await User.update(
+      { _id: req.params.id },
+      { $set: updateOps }
+    );
+    res.json(user);
+  } catch (err) {
+    res.json({message: err});
+  }
 }
 
 exports.delete_user = (req, res) => {
