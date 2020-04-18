@@ -1,6 +1,6 @@
 const User = require('./user.model');
 
-exports.get_users = async (req, res) => {
+exports.getUsers = async (req, res) => {
   try {
     const users = await User.find();
     res.json(users);
@@ -9,7 +9,7 @@ exports.get_users = async (req, res) => {
   }
 }
 
-exports.get_user =  async (req, res) => {
+exports.getUer =  async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
     res.json(user);
@@ -18,7 +18,7 @@ exports.get_user =  async (req, res) => {
   }
 }
 
-exports.create_user = async (req, res, next) => {
+exports.createUser = async (req, res, next) => {
   const user = new User({
     firstName: req.body.firstName,
     lastName: req.body.lastName,
@@ -47,7 +47,7 @@ exports.create_user = async (req, res, next) => {
 }
 
 
-exports.update_user = async (req, res) => {
+exports.updateUser = async (req, res) => {
   try {
     const updateOps = {};
     for (const key of Object.keys(req.body)) {
@@ -63,7 +63,7 @@ exports.update_user = async (req, res) => {
   }
 }
 
-exports.delete_user = async (req, res) => {
+exports.deleteUser = async (req, res) => {
   try {
     const user = await User.remove({_id: req.params.id});
     res.json(user);
