@@ -1,13 +1,26 @@
-const { signinValidation } = require('../components/user/user.validation');
+const { createUserValidation, updateUserValidation } = require('../components/user/user.validation');
 
-module.exports.signinValidation = (req, res, next) => {
+module.exports.createUserValidation = (req, res, next) => {
   try {
-    const {error} = signinValidation(req.body);
+    const {error} = createUserValidation(req.body);
     if(error) {
       throw error;
     }
     next();
   } catch (error) {
     return res.status(400).send(error.details[0]);
+  } 
+}
+
+
+module.exports.updateUserValidation = (req, res, next) => {
+  try {
+    const {error} = updateUserValidation(req.body);
+    if(error) {
+      throw error;
+    }
+    next();
+  } catch (error) {
+    return res.status(400).send(error);
   } 
 }
