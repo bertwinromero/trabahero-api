@@ -1,4 +1,5 @@
 const User = require('./user.model');
+const jwt = require('jsonwebtoken');
 
 exports.getUsers = async (req, res) => {
   try {
@@ -71,3 +72,23 @@ exports.deleteUser = async (req, res) => {
     res.json({message: err});
   }
 }
+
+exports.signUser = async (req, res) => {
+  // CHECK IF THE EMAIL EXIST
+  const user = await User.findOne({email: req.body.email});
+  if (!user) {
+    return res.status(400).send('Email or password is incorrect: EMAIL');
+  }
+  
+  const validPass = user.password === req.body.password;
+  if(!validPass) {
+    return res.status(400).send('Email or password is incorrect: PASSOWRD');
+  }
+
+  // CREATE AND ASSING TOKEN
+  const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET);
+  res.header('auth-token', token).json({
+    token,
+    user
+  });
+} 

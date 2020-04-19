@@ -4,7 +4,10 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
+
+
 const databaseConfig = require('./src/config/database.config');
+const apiConfig = require('./src/config/api.config');
 
 const usersRoutes = require('./src/api/components/user/user.routes');
 
@@ -24,6 +27,6 @@ app.use(bodyParser.json());
 
 
 // ROUTES MIDDLEWARE
-app.use('/api/users', usersRoutes);
+app.use(`${apiConfig.base}/users`, usersRoutes);
 
 module.exports = app;

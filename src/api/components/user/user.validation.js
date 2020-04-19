@@ -23,8 +23,14 @@ const createUserValidation = (user) => {
 // UPDATE VALIDATION
 const updateUserValidation = (user) => {
   return userSchema.validate(user);
-  } 
+} 
+
+// SIGNIN VALIDATION
+const signinUserValidation = (user) => {
+  return userSchema.with('email', 'password').validate(user);
+} 
 
 
 module.exports.createUserValidation = createUserValidation;
 module.exports.updateUserValidation = updateUserValidation;
+module.exports.signinUserValidation = signinUserValidation;

@@ -4,5 +4,6 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 module.exports = {
-  port: process.env.PORT || 3000
-} 
+  base: '/api/v1',
+  secret: process.env.TOKEN_SECRET,
+};
