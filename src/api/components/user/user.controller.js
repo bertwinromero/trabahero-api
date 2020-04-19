@@ -1,5 +1,6 @@
 const User = require('./user.model');
 const jwt = require('jsonwebtoken');
+const brcrypt = require('bcryptjs');
 
 exports.getUsers = async (req, res) => {
   try {
@@ -20,6 +21,18 @@ exports.getUser =  async (req, res) => {
 }
 
 exports.createUser = async (req, res, next) => {
+   // CHECK IF USER IS IN DATABASE
+   const emailExist = await User.findOne({email: req.body.email});
+   if(emailExist){
+     return res.status(400).send({
+       error: {message: 'Email already exists'}
+     });
+   }
+
+   // HASH PASSOWRDS
+  const salt = await brcrypt.genSalt(10);
+  const hassPassword = await brcrypt.hash(req.body.password, salt);
+
   const user = new User({
     firstName: req.body.firstName,
     lastName: req.body.lastName,
@@ -31,7 +44,7 @@ exports.createUser = async (req, res, next) => {
     province: req.body.province,
     city: req.body.city,
     email: req.body.email,
-    password: req.body.password,
+    password: hassPassword,
   });
 
   try {
@@ -77,12 +90,17 @@ exports.signUser = async (req, res) => {
   // CHECK IF THE EMAIL EXIST
   const user = await User.findOne({email: req.body.email});
   if (!user) {
-    return res.status(400).send('Email or password is incorrect: EMAIL');
+    return res.status(400).send(
+      {error: {message: 'Email or password is incorrect'}}
+    );
   }
   
-  const validPass = user.password === req.body.password;
+  // // CHECK IF PASSOWRD IS MATCHED
+  const validPass = await brcrypt.compare(req.body.password, user.password);
   if(!validPass) {
-    return res.status(400).send('Email or password is incorrect: PASSOWRD');
+    return res.status(400).send(
+      {error: {message: 'Email or password is incorrect'}}
+    );
   }
 
   // CREATE AND ASSING TOKEN
