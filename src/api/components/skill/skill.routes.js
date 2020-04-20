@@ -1,15 +1,16 @@
 const router = require('express').Router();
 const skillController = require('./skill.controller');
 const validate = require('../../middlewares/validations/validate-skill');
+const verifyToken =  require('../../middlewares/verify-token');
 
-router.get('/', skillController.getSkills);
+router.get('/', verifyToken, skillController.getSkills);
 
-router.get('/:id', skillController.getSkill);
+router.get('/:id', verifyToken, skillController.getSkill);
 
-router.post('/', validate.skill, skillController.createSkill);
+router.post('/', verifyToken, validate.skill, skillController.createSkill);
 
-router.patch('/:id', validate.skill, skillController.updateSkill);
+router.patch('/:id', verifyToken, validate.skill, skillController.updateSkill);
 
-router.delete('/:id', skillController.deleteSkill);
+router.delete('/:id', verifyToken, skillController.deleteSkill);
 
 module.exports = router;
