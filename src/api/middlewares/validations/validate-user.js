@@ -2,9 +2,9 @@ const {
   createUserValidation,
   updateUserValidation,
   signinUserValidation 
-} = require('../components/user/user.validation');
+} = require('../../components/user/user.validation');
 
-module.exports.createUserValidation = (req, res, next) => {
+module.exports.createUser = (req, res, next) => {
   try {
     const {error} = createUserValidation(req.body);
     if(error) {
@@ -17,7 +17,7 @@ module.exports.createUserValidation = (req, res, next) => {
 }
 
 
-module.exports.updateUserValidation = (req, res, next) => {
+module.exports.updateUser = (req, res, next) => {
   try {
     const {error} = updateUserValidation(req.body);
     if(error) {
@@ -29,7 +29,7 @@ module.exports.updateUserValidation = (req, res, next) => {
   } 
 }
 
-module.exports.signinUserValidation = (req, res, next) => {
+module.exports.signinUser = (req, res, next) => {
   try {
     const {error} = signinUserValidation(req.body);
     if(error) {
