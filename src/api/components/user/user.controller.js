@@ -56,8 +56,6 @@ exports.createUser = async (req, res, next) => {
   } catch (err) {
     res.status(400).send(err);
   }
-
-  res.status(201).json({message: 'response here'});
 }
 
 
