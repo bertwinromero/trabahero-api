@@ -1,15 +1,16 @@
 const router = require('express').Router();
 const workerController = require('./worker.controller');
 const validate = require('../../middlewares/validations/validate-worker');
+const verifyToken =  require('../../middlewares/verify-token');
 
-router.get('/', workerController.getWorkers);
+router.get('/', verifyToken, workerController.getWorkers);
 
-router.get('/:id', workerController.getWorker);
+router.get('/:id', verifyToken, workerController.getWorker);
 
-router.post('/', validate.createWorker, workerController.createWorker);
+router.post('/', verifyToken, validate.createWorker, workerController.createWorker);
 
-router.patch('/:id', validate.updateWorker, workerController.updateWorker);
+router.patch('/:id', verifyToken, validate.updateWorker, workerController.updateWorker);
 
-router.delete('/:id', workerController.deleteWorker);
+router.delete('/:id', verifyToken, workerController.deleteWorker);
 
 module.exports = router;
