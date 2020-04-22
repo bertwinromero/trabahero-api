@@ -1,5 +1,5 @@
 const { createWorkerValidation, updateWorkerValidation } = require('../../components/worker/worker.validation');
-const response = require('../../../utils/response').response;
+const response = require('../../../utils/response/response').response;
 
 module.exports.createWorker = (req, res, next) => {
   try {

@@ -1,5 +1,5 @@
 const Worker = require('./worker.model');
-const response = require('../../../utils/response').response;
+const response = require('../../../utils/response/response').response;
 
 exports.getWorkers = async (req, res) => {
   try {

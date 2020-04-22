@@ -1,5 +1,5 @@
 const Skill = require('./skill.model');
-const response = require('../../../utils/response').response;
+const response = require('../../../utils/response/response').response;
 
 exports.getSkills = async (req, res) => {
   try {

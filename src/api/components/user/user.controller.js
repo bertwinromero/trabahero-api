@@ -1,8 +1,8 @@
 const User = require('./user.model');
 const jwt = require('jsonwebtoken');
 const brcrypt = require('bcryptjs');
-const response = require('../../../utils/response').response;
-
+const response = require('../../../utils/response/response').response;
+const { authMessages } = require('../../../utils/response/response-messages')
 exports.getUsers = async (req, res) => {
   try {
     const users = await User.find();
@@ -26,7 +26,7 @@ exports.createUser = async (req, res, next) => {
    const emailExist = await User.findOne({email: req.body.email});
    if(emailExist){
      const error = {
-       message: 'Email already exists'
+       message: authMessages.emailExist,
      };
     return response.exists(error, req, res);
 
@@ -89,14 +89,14 @@ exports.signUser = async (req, res) => {
   // CHECK IF THE EMAIL EXIST
   const user = await User.findOne({email: req.body.email});
   if (!user) {
-    const error = {message: 'Email or password is incorrect'};
+    const error = { message: authMessages.incorrectCredentials };
     return response.badRequest(error, req, res);
   }
   
   // // CHECK IF PASSOWRD IS MATCHED
   const validPass = await brcrypt.compare(req.body.password, user.password);
   if(!validPass) {
-    const error = {message: 'Email or password is incorrect'};
+    const error = { message: authMessages.incorrectCredentials };
     return response.badRequest(error, req, res);
   }
 

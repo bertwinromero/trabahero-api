@@ -3,7 +3,7 @@ const {
   updateUserValidation,
   signinUserValidation 
 } = require('../../components/user/user.validation');
-const response = require('../../../utils/response').response;
+const response = require('../../../utils/response/response').response;
 
 module.exports.createUser = (req, res, next) => {
   try {

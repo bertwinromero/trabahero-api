@@ -1,5 +1,5 @@
 const { validate } = require('../../components/skill/skill.validation');
-const response = require('../../../utils/response').response;
+const response = require('../../../utils/response/response').response;
 
 module.exports.skill = (req, res, next) => {
   try {
