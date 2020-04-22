@@ -4,18 +4,18 @@ const response = require('../../../utils/response').response;
 exports.getSkills = async (req, res) => {
   try {
     const skill = await Skill.find();
-    return response.ok(200, skill, req, res);
+    return response.ok(skill, req, res);
   } catch (err) {
-    return response.error(400, err, req, res);
+    return response.badRequest(err, req, res);
   }
 }
 
 exports.getSkill= async (req, res) => {
   try {
     const skill = await Skill.findById(req.params.id);
-    return response.ok(200, skill, req, res);
+    return response.ok(skill, req, res);
   } catch (err) {
-    return response.error(400, err, req, res);
+    return response.badRequest(err, req, res);
   }
 }
 
@@ -28,7 +28,7 @@ exports.createSkill= async (req, res, next) => {
     response.ok(201, saveSkill, req, res);
     return next();
   } catch (err) {
-    return response.error(400, err, req, res);
+    return response.badRequest(err, req, res);
   }
 }
 
@@ -42,18 +42,18 @@ exports.updateSkill= async (req, res) => {
       { _id: req.params.id },
       { $set: updateOps }
     );
-    return response.ok(200, skill, req, res);
+    return response.ok(skill, req, res);
   } catch (err) {
-    return response.error(400, err, req, res);
+    return response.badRequest(err, req, res);
   }
 }
 
 exports.deleteSkill = async (req, res) => {
   try {
     const skill = await Skill.remove({_id: req.params.id});
-    return response.ok(200, skill, req, res);
+    return response.ok(skill, req, res);
   } catch (err) {
-    return response.error(400, err, req, res);
+    return response.badRequest(err, req, res);
   }
 }
 

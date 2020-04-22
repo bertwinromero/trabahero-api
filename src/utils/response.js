@@ -19,15 +19,23 @@ const responseObject = function(error, data, req) {
 };
 
 module.exports.response = {
-  ok: function(code, data, req, res) {
-    res.status(code).json(Object.freeze(responseObject(null, data, req)));
+  ok: function(data, req, res) {
+    res.status(200).json(Object.freeze(responseObject(null, data, req)));
   },
 
-  error: function(code, error, req, res) {
-    res.status(code).json(responseObject(error, null, req));
+  badRequest: function(error, req, res) {
+    res.status(400).json(responseObject(error, null, req));
   },
 
   exists: function(error, req, res) {
     res.status(409).json(responseObject(error, null, req));
+  },
+
+  serverError: function(error, req, res) {
+    res.status(500).json(responseObject(error, null, req));
+  },
+
+  notFound: function(error, req, res) {
+    res.status(404).json(responseObject(error, null, req));
   },
 }

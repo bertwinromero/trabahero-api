@@ -6,18 +6,18 @@ const response = require('../../../utils/response').response;
 exports.getUsers = async (req, res) => {
   try {
     const users = await User.find();
-    return response.ok(200, users, req, res);
+    return response.ok(users, req, res);
   } catch (err) {
-    return response.error(400, err, req, res);
+    return response.badRequest(err, req, res);
   }
 }
 
 exports.getUser =  async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
-    return response.ok(200, user, req, res);
+    return response.ok(user, req, res);
   } catch (err) {
-    return response.error(400, err, req, res);
+    return response.badRequest(err, req, res);
   }
 }
 
@@ -55,7 +55,7 @@ exports.createUser = async (req, res, next) => {
     response.ok(201, savedUser, req, res);
     return next();
   } catch (err) {
-    return response.error(400, err, req, res);
+    return response.badRequest(err, req, res);
   }
 }
 
@@ -70,18 +70,18 @@ exports.updateUser = async (req, res) => {
       { _id: req.params.id },
       { $set: updateOps }
     );
-    return response.ok(200, user, req, res);
+    return response.ok(user, req, res);
   } catch (err) {
-    return response.error(400, err, req, res);
+    return response.badRequest(err, req, res);
   }
 }
 
 exports.deleteUser = async (req, res) => {
   try {
     const user = await User.remove({_id: req.params.id});
-    return response.ok(200, user, req, res);
+    return response.ok(user, req, res);
   } catch (err) {
-    return response.error(400, err, req, res);
+    return response.badRequest(err, req, res);
   }
 }
 
@@ -90,17 +90,17 @@ exports.signUser = async (req, res) => {
   const user = await User.findOne({email: req.body.email});
   if (!user) {
     const error = {message: 'Email or password is incorrect'};
-    return response.error(400, error, req, res);
+    return response.badRequest(error, req, res);
   }
   
   // // CHECK IF PASSOWRD IS MATCHED
   const validPass = await brcrypt.compare(req.body.password, user.password);
   if(!validPass) {
     const error = {message: 'Email or password is incorrect'};
-    return response.error(400, error, req, res);
+    return response.badRequest(error, req, res);
   }
 
   // CREATE AND ASSING TOKEN
   const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET);
-  return response.ok(200, { token, user }, req, res);
+  return response.ok({ token, user }, req, res);
 } 
