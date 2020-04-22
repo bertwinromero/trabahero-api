@@ -24,18 +24,18 @@ module.exports.response = {
   },
 
   badRequest: function(error, req, res) {
-    res.status(400).json(responseObject(error, null, req));
+    res.status(400).json(Object.freeze(responseObject(error, null, req)));
   },
 
   exists: function(error, req, res) {
-    res.status(409).json(responseObject(error, null, req));
+    res.status(409).json(Object.freeze(responseObject(error, null, req)));
   },
 
   serverError: function(error, req, res) {
-    res.status(500).json(responseObject(error, null, req));
+    res.status(500).json(Object.freeze(responseObject(error, null, req)));
   },
 
   notFound: function(error, req, res) {
-    res.status(404).json(responseObject(error, null, req));
+    res.status(404).json(Object.freeze(responseObject(error, null, req)));
   },
 }
