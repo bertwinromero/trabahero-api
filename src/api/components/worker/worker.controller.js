@@ -1,20 +1,21 @@
 const Worker = require('./worker.model');
+const response = require('../../../utils/response').response;
 
 exports.getWorkers = async (req, res) => {
   try {
     const workers = await Worker.find();
-    res.json(workers);
+    return response.ok(workers, req, res);
   } catch (err) {
-    res.json({message: err});
+    return response.badRequest(err, req, res);
   }
 }
 
 exports.getWorker = async (req, res) => {
   try {
     const worker = await Worker.findById(req.params.id);
-    res.json(worker);
+    return response.ok(worker, req, res);
   } catch (err) {
-    res.json({message: err});
+    return response.badRequest(err, req, res);
   }
 }
 
@@ -25,15 +26,13 @@ exports.createWorker = async (req, res, next) => {
    skills: req.body.skills
  });
 
- try {
-   const saveWorker = await worker.save();
-   res.status(201).json({
-     user: saveWorker
-   });
-   return next();
- } catch (err) {
-   res.status(400).send(err);
- }
+  try {
+    const saveWorker = await worker.save();
+    response.ok(201, saveWorker, req, res);
+    return next();
+  } catch (err) {
+    return response.badRequest(err, req, res);
+  }
 }
 
 exports.updateWorker = async (req, res) => {
@@ -46,17 +45,17 @@ exports.updateWorker = async (req, res) => {
       { _id: req.params.id },
       { $set: updateOps }
     );
-    res.json(worker);
+    return response.ok(worker, req, res);
   } catch (err) {
-    res.json({message: err});
+    return response.badRequest(err, req, res);
   }
 }
 
 exports.deleteWorker = async (req, res) => {
   try {
     const worker = await Worker.remove({_id: req.params.id});
-    res.json(worker);
+    return response.ok(worker, req, res);
   } catch (err) {
-    res.json({message: err});
+    return response.badRequest(err, req, res);
   }
 }
