@@ -1,4 +1,5 @@
 const { validate } = require('../../components/skill/skill.validation');
+const response = require('../../../utils/response').response;
 
 module.exports.skill = (req, res, next) => {
   try {
@@ -7,7 +8,7 @@ module.exports.skill = (req, res, next) => {
       throw error;
     }
     next();
-  } catch (error) {
-    return res.status(400).send(error.details[0]);
+  } catch (err) {
+    return response.badRequest(err.details[0], req, res);
   }
 }
