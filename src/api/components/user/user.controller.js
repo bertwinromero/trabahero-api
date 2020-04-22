@@ -1,22 +1,23 @@
 const User = require('./user.model');
 const jwt = require('jsonwebtoken');
 const brcrypt = require('bcryptjs');
+const response = require('../../../utils/response').response;
 
 exports.getUsers = async (req, res) => {
   try {
     const users = await User.find();
-    res.json(users);
+    return response.ok(200, users, req, res);
   } catch (err) {
-    res.json({message: err});
+    return response.error(400, err, req, res);
   }
 }
 
 exports.getUser =  async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
-    res.json(user);
+    return response.ok(200, user, req, res);
   } catch (err) {
-    res.json({message: err});
+    return response.error(400, err, req, res);
   }
 }
 
@@ -24,9 +25,11 @@ exports.createUser = async (req, res, next) => {
    // CHECK IF USER IS IN DATABASE
    const emailExist = await User.findOne({email: req.body.email});
    if(emailExist){
-     return res.status(400).send({
-       error: {message: 'Email already exists'}
-     });
+     const error = {
+       message: 'Email already exists'
+     };
+    return response.exists(error, req, res);
+
    }
 
    // HASH PASSOWRDS
@@ -48,13 +51,11 @@ exports.createUser = async (req, res, next) => {
   });
 
   try {
-    const saveUser = await user.save();
-    res.status(201).json({
-      user: saveUser
-    });
+    const savedUser = await user.save();
+    response.ok(201, savedUser, req, res);
     return next();
   } catch (err) {
-    res.status(400).send(err);
+    return response.error(400, err, req, res);
   }
 }
 
@@ -69,18 +70,18 @@ exports.updateUser = async (req, res) => {
       { _id: req.params.id },
       { $set: updateOps }
     );
-    res.json(user);
+    return response.ok(200, user, req, res);
   } catch (err) {
-    res.json({message: err});
+    return response.error(400, err, req, res);
   }
 }
 
 exports.deleteUser = async (req, res) => {
   try {
     const user = await User.remove({_id: req.params.id});
-    res.json(user);
+    return response.ok(200, user, req, res);
   } catch (err) {
-    res.json({message: err});
+    return response.error(400, err, req, res);
   }
 }
 
@@ -88,23 +89,18 @@ exports.signUser = async (req, res) => {
   // CHECK IF THE EMAIL EXIST
   const user = await User.findOne({email: req.body.email});
   if (!user) {
-    return res.status(400).send(
-      {error: {message: 'Email or password is incorrect'}}
-    );
+    const error = {message: 'Email or password is incorrect'};
+    return response.error(400, error, req, res);
   }
   
   // // CHECK IF PASSOWRD IS MATCHED
   const validPass = await brcrypt.compare(req.body.password, user.password);
   if(!validPass) {
-    return res.status(400).send(
-      {error: {message: 'Email or password is incorrect'}}
-    );
+    const error = {message: 'Email or password is incorrect'};
+    return response.error(400, error, req, res);
   }
 
   // CREATE AND ASSING TOKEN
   const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET);
-  res.header('auth-token', token).json({
-    token,
-    user
-  });
+  return response.ok(200, { token, user }, req, res);
 } 
