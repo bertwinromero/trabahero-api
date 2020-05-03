@@ -5,8 +5,10 @@ const {
 } = require('../../components/user/user.validation');
 const response = require('../../../utils/response/response').response;
 
-module.exports.createUser = (req, res, next) => {
+module.exports.createUser = (req, res, next) => { 
   try {
+    req.body.photoUrl = req.file ? req.file.path : '';
+
     const {error} = createUserValidation(req.body);
     if(error) {
       throw error;

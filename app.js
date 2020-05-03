@@ -22,7 +22,7 @@ mongoose.connect(databaseConfig.getDatabaseURI(), {
   () => console.log('connected to db!'));
 
 app.use(morgan("dev"));
-
+app.use('/uploads', express.static('uploads'));
 
 // MIDDLEWARS
 app.use(bodyParser.urlencoded({ extended: false }));

@@ -22,6 +22,7 @@ exports.getUser =  async (req, res) => {
 }
 
 exports.createUser = async (req, res, next) => {
+  console.log('path: ', req.file.path);
    // CHECK IF USER IS IN DATABASE
    const emailExist = await User.findOne({email: req.body.email});
    if(emailExist){
