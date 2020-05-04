@@ -4,27 +4,31 @@ const userSchema = new mongoose.Schema({
   firstName: {
     type: String,
     required: true,
-    min: 2
+    min: 2,
+    max: 40
   },
   lastName: {
     type: String,
     required: true,
-    min: 2
+    min: 2,
+    max: 40
   },
   middleName: {
     type: String,
     required: true,
-    min: 1
+    min: 1,
+    max: 40
   },
   photoUrl: {
     type: String,
     required: true,
+    max: 1024
   },
   phoneNumber: {
     type: String,
     required: true,
     min: 10,
-    max: 11
+    max: 15
   },
   gender: { 
     type: String,
