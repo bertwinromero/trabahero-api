@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
+const cors = require('cors');
 
 // CONFIG
 const databaseConfig = require('./src/config/database.config');
@@ -20,6 +21,13 @@ dotenv.config();
 mongoose.connect(databaseConfig.getDatabaseURI(), { 
   useNewUrlParser: true, useUnifiedTopology: true },
   () => console.log('connected to db!'));
+
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+  })
+);
 
 app.use(morgan("dev"));
 app.use('/uploads', express.static('uploads'));
